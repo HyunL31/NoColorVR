@@ -4,6 +4,8 @@ using UnityEngine.UI;
 public class BloodEffectUI : MonoBehaviour
 {
     public Image bloodImage;
+    public Image[] bloodDrops; // 추가 피방울 스프라이트
+
     public int maxHP = 30;
     public int currentHP = 30;
 
@@ -12,13 +14,24 @@ public class BloodEffectUI : MonoBehaviour
 
     void Update()
     {
-        // 현재 알파에서 목표 알파로 부드럽게
+        // 투명도 조절
         Color c = bloodImage.color;
         c.a = Mathf.Lerp(c.a, targetAlpha, Time.deltaTime * fadeSpeed);
         bloodImage.color = c;
 
-        // 테스트용: Space 눌러서 데미지 적용
-        if (Input.GetButtonDown("Jump")) // 기본 키보드 스페이스바
+        // 피 방울 투명도
+        foreach (var drop in bloodDrops)
+        {
+            if (drop.enabled)
+            {
+                Color dropColor = drop.color;
+                dropColor.a = c.a;
+                drop.color = dropColor;
+            }
+        }
+
+        // 테스트용 데미지
+        if (Input.GetButtonDown("Jump"))
         {
             ApplyDamage(10);
         }
@@ -32,6 +45,18 @@ public class BloodEffectUI : MonoBehaviour
         float healthRatio = (float)currentHP / maxHP;
         targetAlpha = 1f - healthRatio;
 
-        Debug.Log($"HP: {currentHP}, 알파: {targetAlpha}");
+        int dropCount = Mathf.Clamp((int)((1f - healthRatio) * bloodDrops.Length), 0, bloodDrops.Length);
+
+        UpdateBloodDrops(dropCount);
+
+        Debug.Log($"HP: {currentHP}, Alpha: {targetAlpha}, Blood count: {dropCount}");
+    }
+
+    void UpdateBloodDrops(int count)
+    {
+        for (int i = 0; i < bloodDrops.Length; i++)
+        {
+            bloodDrops[i].enabled = i < count;
+        }
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace MimicSpace
 {
@@ -49,7 +50,32 @@ namespace MimicSpace
         public void Initialize(Vector3 footPosition, int legResolution, float maxLegDistance, float growCoef, Mimic myMimic, float lifeTime)
         {
             myColor = new Color(Random.Range(0, 1f), Random.Range(0, 1f), Random.Range(0, 1f));
-            this.footPosition = footPosition;
+            NavMeshHit hitN;
+            Vector3 sampledPos;
+            if (NavMesh.SamplePosition(footPosition, out hitN, maxLegDistance * 0.5f, NavMesh.AllAreas))
+            {
+                sampledPos = hitN.position;
+            }
+            else
+            {
+                // 네브메쉬 위 위치를 못 찾으면 기존 위치 유지 (또는 약간 위로 띄우기)
+                sampledPos = footPosition;
+            }
+
+            float distanceToMimic = Vector3.Distance(sampledPos, myMimic.transform.position);
+            if (distanceToMimic > maxLegDistance)
+            {
+                // 최대 거리보다 멀면 footPosition을 미믹 기준 maxLegDistance 방향으로 보정
+                Vector3 direction = (sampledPos - myMimic.transform.position).normalized;
+                sampledPos = myMimic.transform.position + direction * maxLegDistance * 0.9f; // 0.9f로 약간 여유 둠
+                                                                                             // 다시 네브메쉬 샘플링 보정
+                if (NavMesh.SamplePosition(sampledPos, out hitN, maxLegDistance * 0.2f, NavMesh.AllAreas))
+                {
+                    sampledPos = hitN.position;
+                }
+            }
+
+            this.footPosition = sampledPos;
             this.legResolution = legResolution;
             this.maxLegDistance = maxLegDistance;
             this.growCoef = growCoef;

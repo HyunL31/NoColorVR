@@ -2,8 +2,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public enum GamePhase
-    {
+    public enum GamePhase {
         StartMenu,
         FreeMove,
         Menu,
@@ -18,17 +17,5 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         gamePhase = GamePhase.StartMenu;
-    }
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 }

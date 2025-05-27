@@ -5,6 +5,8 @@ using UnityEngine.AI;
 
 namespace MimicSpace
 {
+    //This script is based on https://assetstore.unity.com/packages/3d/characters/creatures/mimic-prototype-245997
+
     public class Leg : MonoBehaviour
     {
         Mimic myMimic;
@@ -50,6 +52,7 @@ namespace MimicSpace
         public void Initialize(Vector3 footPosition, int legResolution, float maxLegDistance, float growCoef, Mimic myMimic, float lifeTime)
         {
             myColor = new Color(Random.Range(0, 1f), Random.Range(0, 1f), Random.Range(0, 1f));
+
             NavMeshHit hitN;
             Vector3 sampledPos;
             if (NavMesh.SamplePosition(footPosition, out hitN, maxLegDistance * 0.5f, NavMesh.AllAreas))
@@ -190,7 +193,7 @@ namespace MimicSpace
         void Sethandles()
         {
             // Start handle at body position
-            handles[0] = transform.position;
+            handles[0] = transform.position + Vector3.up*0.8f;
 
             // The foot position is moved upward,
             // in combination with the Handles[7] offset it will look like an "ankle"

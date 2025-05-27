@@ -1,52 +1,67 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
 namespace MimicSpace
 {
+    //This script is based on https://assetstore.unity.com/packages/3d/characters/creatures/mimic-prototype-245997
+
     public class Movement : MonoBehaviour
     {
-        [Header("Controls")]
-        [Tooltip("Body Height from ground")]
-        [Range(0.5f, 5f)]
-        public float height = 0.8f;
-        public float velocityLerpCoef = 4f;
+        [Range(0.5f, 7f)]
+        public float velocity = 1f;
+        public float DetectRange = 10f; 
 
         private NavMeshAgent agent;
         private Mimic myMimic;
+        public GameObject target; // Set to Player
+        AudioSource ac;
+
 
         void Start()
         {
             agent = GetComponent<NavMeshAgent>();
             myMimic = GetComponent<Mimic>();
+            ac = GetComponent<AudioSource>();
 
-            // 높이 수동으로 조절 안 하게끔 끔
-            agent.updatePosition = true;
-            agent.updateRotation = false;
+            changeSpeed(velocity);
         }
 
         void Update()
         {
-            // 플레이어 위치로 이동
-            Vector3 playerPos = Camera.main.transform.position;
-            agent.SetDestination(playerPos);
+            // Move to target
+            agent.SetDestination(target.transform.position);
 
-            // 방향 벡터 계산 (XZ 평면 기준)
+
+            // Give moving direction(2D) to 'mimic' for making legs
             Vector3 direction = agent.desiredVelocity;
             direction.y = 0f;
 
-            // Mimic에 velocity 전달
             myMimic.velocity = direction;
 
-            // 바닥 높이 보정
-            RaycastHit hit;
-            Vector3 correctedPos = transform.position;
-            if (Physics.Raycast(transform.position, Vector3.down, out hit))
+            // When mimic can reach to target, check certain range
+            NavMeshPath path = new NavMeshPath();
+            bool pathFound = agent.CalculatePath(target.transform.position, path);
+            float dir = Vector3.Distance(target.transform.position, transform.position);
+
+            if (pathFound && path.status == NavMeshPathStatus.PathComplete && dir <= DetectRange)
             {
-                correctedPos.y = hit.point.y + height;
-                transform.position = Vector3.Lerp(transform.position, correctedPos, velocityLerpCoef * Time.deltaTime);
+                // If checked, play the chasing sound with speed up
+                if (!ac.isPlaying) ac.Play();
+                changeSpeed(2f);
             }
+            else
+            {
+                // If not or failed, stop the chasing sound and restore the origin speed
+                ac.Stop();
+                changeSpeed(1f);
+            }
+
+        }
+
+        // Change mimic's speed
+        public void changeSpeed(float valSpeed)
+        {
+            agent.speed = valSpeed;
         }
     }
 }

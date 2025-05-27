@@ -4,6 +4,8 @@ using UnityEngine;
 
 namespace MimicSpace
 {
+    //This script is based on https://assetstore.unity.com/packages/3d/characters/creatures/mimic-prototype-245997
+
     public class Mimic : MonoBehaviour
     {
         [Header("Animation")]
@@ -53,6 +55,7 @@ namespace MimicSpace
         [Tooltip("This must be updates as the Mimin moves to assure great leg placement")]
         public Vector3 velocity;
 
+
         void Start()
         {
             ResetMimic();
@@ -74,7 +77,6 @@ namespace MimicSpace
             velocity = new Vector3(randV.x, 0, randV.y);
             minimumAnchoredParts = minimumAnchoredLegs * partsPerLeg;
             maxLegDistance = newLegRadius * 2.1f;
-
         }
 
         IEnumerator NewLegCooldown()
@@ -84,7 +86,6 @@ namespace MimicSpace
             canCreateLeg = true;
         }
 
-        // Update is called once per frame
         void Update()
         {
             if (!canCreateLeg)

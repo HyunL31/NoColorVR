@@ -1,10 +1,14 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// Blood Vignette
+/// </summary>
+
 public class BloodEffectUI : MonoBehaviour
 {
     public Image bloodImage;
-    public Image[] bloodDrops; // 추가 피방울 스프라이트
+    public Image[] bloodDrops; // Additional Blood Drops
 
     public int maxHP = 30;
     public int currentHP = 30;
@@ -14,12 +18,12 @@ public class BloodEffectUI : MonoBehaviour
 
     void Update()
     {
-        // 투명도 조절
+        // Alpha Control
         Color c = bloodImage.color;
         c.a = Mathf.Lerp(c.a, targetAlpha, Time.deltaTime * fadeSpeed);
         bloodImage.color = c;
 
-        // 피 방울 투명도
+        // Blood Drop Alpha
         foreach (var drop in bloodDrops)
         {
             if (drop.enabled)
@@ -30,7 +34,7 @@ public class BloodEffectUI : MonoBehaviour
             }
         }
 
-        // 테스트용 데미지
+        // for test
         if (Input.GetButtonDown("Jump"))
         {
             ApplyDamage(10);

@@ -1,10 +1,9 @@
-using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.XR;
-using UnityEngine.XR.Interaction.Toolkit;
-using static UnityEngine.XR.Interaction.Toolkit.Inputs.Haptics.HapticsUtility;
+
+/// <summary>
+/// Color Control with UI
+/// </summary>
 
 public enum ColorType
 {
@@ -17,8 +16,8 @@ public enum ColorType
 
 public class ColorController : MonoBehaviour
 {
-    public GameObject menuUI;        // 버튼 UI 패널
-    public LampController lamp;      // 램프 컨트롤러 참조
+    public GameObject menuUI;        // Button UI Panel
+    public LampController lamp;      // Lamp Controller
     private bool wasPressed = false;
     private bool isMenuOpen = false;
     public InputActionReference submitAction;

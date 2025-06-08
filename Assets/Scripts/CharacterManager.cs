@@ -8,6 +8,7 @@ public class CharacterManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        characterData = new CharacterData();
         characterData.Health = 30;
     }
 

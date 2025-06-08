@@ -1,5 +1,9 @@
 using UnityEngine;
 
+/// <summary>
+/// Lamp Color Control
+/// </summary>
+
 public class LampController : MonoBehaviour
 {
     public ColorType currentColor = ColorType.None;

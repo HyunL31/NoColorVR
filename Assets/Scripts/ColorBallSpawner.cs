@@ -2,6 +2,10 @@
 using UnityEngine.XR.Interaction.Toolkit.Interactables;
 using UnityEngine.XR.Interaction.Toolkit.Interactors;
 
+/// <summary>
+/// Color Ball Interaction
+/// </summary>
+
 public class ColorBallSpawner : MonoBehaviour
 {
     public GameObject redPrefab;
@@ -16,20 +20,12 @@ public class ColorBallSpawner : MonoBehaviour
     public void SpawnColorBall()
     {
         GameObject prefabToSpawn = GetPrefabByColor(lamp.currentColor);
-
         if (prefabToSpawn == null)
         {
-            Debug.LogWarning("No Prefab with currentColor");
             return;
         }
 
         GameObject ball = Instantiate(prefabToSpawn, spawnPoint.position, Quaternion.identity);
-        Debug.Log($"Color ball: {ball.name}");
-
-        if (ball.TryGetComponent(out IXRSelectInteractable grabInteractable))
-        {
-            interactor.StartManualInteraction(grabInteractable);
-        }
     }
 
     private GameObject GetPrefabByColor(ColorType color)

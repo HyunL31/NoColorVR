@@ -33,7 +33,7 @@ public class ColorController : MonoBehaviour
         }
     }
 
-    // UI ¹öÆ°¿¡¼­ È£ÃâÇÒ ÇÔ¼ö
+    // UI ï¿½ï¿½Æ°ï¿½ï¿½ï¿½ï¿½ È£ï¿½ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½
     public void SelectColor(int colorIndex)
     {
         ColorType selectedColor = (ColorType)colorIndex;

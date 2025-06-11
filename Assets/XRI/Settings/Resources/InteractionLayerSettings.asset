@@ -15,11 +15,11 @@ MonoBehaviour:
   m_LayerNames:
   - Default
   - UI
-  - 
-  - 
-  - 
-  - 
-  - 
+  - GoalObject1
+  - GoalObject2
+  - GoalObject3
+  - GoalObject4
+  - Poke
   - 
   - 
   - 

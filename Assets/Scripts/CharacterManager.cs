@@ -3,19 +3,22 @@ using UnityEngine;
 
 public class CharacterManager : MonoBehaviour
 {
-    public static CharacterData characterData;
-    [SerializeField] GameObject Character;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        characterData = new CharacterData();
-        characterData.Health = 30;
-    }
+    public static CharacterManager Instance { get; private set; }
+    public CharacterData characterData { get; private set; }
 
-    // Update is called once per frame
-    void Update()
+    void Awake()
     {
-
+        if (Instance == null)
+        {
+            Instance = this;
+            characterData = new CharacterData();
+            characterData.Health = 30;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 }
 
@@ -24,28 +27,32 @@ public class CharacterData
     private int health;
     public int Health
     {
-        get { return health; }
+        get => health;
         set { if (value >= 0) health = value; }
     }
-    private List<GameObject> items = new List<GameObject>();
-    public void AddItem(GameObject go)
+
+    private List<ItemData> items = new List<ItemData>();
+
+    public void AddItem(ItemData itemData)
     {
-        if (go != null)
-            items.Add(go);
-    }
-    public List<GameObject> GetItems()
-    {
-        List<GameObject> returnItems = new List<GameObject>();
-        foreach (GameObject go in items)
-            returnItems.Add(go);
-        return returnItems;
+        if (itemData != null)
+        {
+            items.Add(itemData);
+        }
     }
 
-    public void DeleteItems(int i)
+    public List<ItemData> GetItems() => new List<ItemData>(items);
+
+    public void RemoveItem(int index)
     {
-        if (i == -1)
-            items.Clear();
-        else if (i >= 0 && items.Count > i)
-            items.RemoveAt(i);
+        if (index >= 0 && index < items.Count)
+        {
+            items.RemoveAt(index);
+        }
+    }
+
+    public void ClearAllItems()
+    {
+        items.Clear();
     }
 }

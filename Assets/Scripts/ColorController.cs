@@ -21,8 +21,6 @@ public class ColorController : MonoBehaviour
     private bool isMenuOpen = false;
     public InputActionReference submitAction;
 
-    private bool isMenuActive = false;
-
     void Update()
     {
         if (submitAction.action.triggered)
@@ -32,13 +30,12 @@ public class ColorController : MonoBehaviour
         }
     }
 
-    // UI 버튼에서 호출할 함수
+    // If press the primary button, the color selector UI will be active.
     public void SelectColor(int colorIndex)
     {
         ColorType selectedColor = (ColorType)colorIndex;
         lamp.SetColor(selectedColor);
 
-        isMenuActive = false;
         menuUI.SetActive(false);
     }
 }

@@ -1,7 +1,7 @@
 using MimicSpace;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.XR.Interaction.Toolkit;
+using UnityEngine.XR.Interaction.Toolkit.Feedback;
+using UnityEngine.XR.Interaction.Toolkit.Inputs.Haptics;
 
 public class GameManager : MonoBehaviour
 {
@@ -21,9 +21,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject mimic;
 
     [SerializeField] private BloodEffectUI bloodEffectUI;
+    [SerializeField] private HapticImpulseData hapticImpulseData = new HapticImpulseData { amplitude = 0.5f, duration = 2f };
+    [SerializeField] private HapticImpulsePlayer left;
+    [SerializeField] private HapticImpulsePlayer right;
 
     private Vector3 playerPosition;
-    private Vector3 mimicPosition;
 
     private void Awake()
     {
@@ -66,8 +68,14 @@ public class GameManager : MonoBehaviour
     public void ResetLevel()
     {
         player.transform.position = playerPosition;
-        lamp.transform.position = playerPosition + Vector3.forward*0.5f;
+        lamp.transform.position = playerPosition + Vector3.forward * 0.5f;
         CharacterManager.Instance.characterData.Health = 30;
         bloodEffectUI.CalculateDamage();
+    }
+
+    public void ManualHapticFeedBack()
+    {
+        left.SendHapticImpulse(0.5f, 1f);
+        right.SendHapticImpulse(0.5f, 1f);
     }
 }

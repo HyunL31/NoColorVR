@@ -5,9 +5,11 @@ namespace MimicSpace
     public class AttackChecker : MonoBehaviour
     {
         [SerializeField] Movement movementScript;
-        [SerializeField] float damageCooldown = 2f;
+        [SerializeField] float damageCooldown = 3f;
 
         [SerializeField] Material material; // Material to change color for status effects
+
+        [SerializeField] private CharacterManager characterManager;
 
         private bool canDealDamage = true;
         private float damageTimer = 0f;
@@ -39,18 +41,22 @@ namespace MimicSpace
             if (hitObject.CompareTag("SlowAttack"))
             {
                 ApplySlowAttack();
+                Destroy(hitObject);
             }
             else if (hitObject.CompareTag("ConfuseAttack"))
             {
                 ApplyConfuseAttack();
+                Destroy(hitObject);
             }
             else if (hitObject.CompareTag("StunAttack"))
             {
                 ApplyStunAttack();
+                Destroy(hitObject);
             }
             else if (hitObject.CompareTag("TrapAttack"))
             {
                 ApplyTrapAttack();
+                Destroy(hitObject);
             }
 
             // Enemy touches player: try to damage
@@ -125,7 +131,8 @@ namespace MimicSpace
 
             canDealDamage = false;
             damageTimer = 0f;
-            Debug.Log("Damage"); // Need to add logic
+            Debug.Log("Damage");
+            characterManager.ApplyDamage(10);
         }
 
 

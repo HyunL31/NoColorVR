@@ -44,9 +44,9 @@ public class BloodEffectUI : MonoBehaviour
     }
 
     // Calculate Player's Damage with 3 stages
-    public void ApplyDamage(int amount)
+    public void CalculateDamage()
     {
-        currentHP -= amount;
+        currentHP = CharacterManager.Instance.characterData.Health;
         currentHP = Mathf.Clamp(currentHP, 0, maxHP);
 
         float healthRatio = (float)currentHP / maxHP;

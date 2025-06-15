@@ -20,6 +20,7 @@ namespace MimicSpace
                                 
         private bool isStunned = false;     // Whether mimic is stunned (cannot move)
         private bool isConfused = false;    // Whether mimic is confused (run away)
+        private bool isSlow = false;
 
         void Start()
         {
@@ -48,14 +49,16 @@ namespace MimicSpace
                 if (!ac.isPlaying) ac.Play();
 
                 // Increase speed while chasing
-                ChangeSpeed(velocity + chaseWeight); 
+                if(!isSlow)
+                    ChangeSpeed(velocity + chaseWeight); 
             }
             else
             {
                 ac.Stop();
 
                 // Restore base speed
-                ChangeSpeed(velocity);                
+                if(!isSlow)
+                    ChangeSpeed(velocity);                
             }
         }
 
@@ -78,7 +81,7 @@ namespace MimicSpace
         // Apply confuse effect: move opposite direction for a duration
         public float ApplyConfuse()
         {
-            float time = 2f;
+            float time = 3f;
             StartCoroutine(ConfuseRoutine(time));
             return time;
         }
@@ -86,7 +89,7 @@ namespace MimicSpace
         // Apply stun effect: stop movement temporarily
         public float ApplyStun()
         {
-            float time = 3f;
+            float time = 4f;
             StartCoroutine(StunRoutine(time));
             return time;
         }
@@ -101,14 +104,14 @@ namespace MimicSpace
         // Coroutine for slow state
         private IEnumerator SlowRoutine(float time)
         {
-            
-
             Debug.Log("Slow applied: speed reduced");
+            isSlow = true;
             ChangeSpeed(velocity * 0.5f);
 
             yield return new WaitForSeconds(time);
-
+            isSlow = false;
             ChangeSpeed(velocity);
+            yield break;
         }
 
         // Coroutine for confuse state
@@ -123,6 +126,7 @@ namespace MimicSpace
 
             yield return new WaitForSeconds(time);
             isConfused = false;
+            yield break;
         }
 
         // Coroutine for stun state
@@ -135,6 +139,7 @@ namespace MimicSpace
             yield return new WaitForSeconds(time);
             isStunned = false;
             ChangeSpeed(velocity);
+            yield break;
         }
     }
 }

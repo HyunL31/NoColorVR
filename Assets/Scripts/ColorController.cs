@@ -16,6 +16,7 @@ public enum ColorType
 
 public class ColorController : MonoBehaviour
 {
+    public GameManager gameManager;
     public GameObject menuUI;        // Button UI Panel
     public LampController lamp;      // Lamp Controller
     private bool isMenuOpen = false;
@@ -23,7 +24,7 @@ public class ColorController : MonoBehaviour
 
     void Update()
     {
-        if (submitAction.action.triggered)
+        if (submitAction.action.triggered && gameManager.gamePhase==GameManager.GamePhase.Level2)
         {
             isMenuOpen = !isMenuOpen;
             menuUI.SetActive(isMenuOpen);

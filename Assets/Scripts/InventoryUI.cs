@@ -12,6 +12,7 @@ public class InventoryUI : MonoBehaviour
     public GameObject inventoryPanel;
     public List<GameObject> slotObjects;
     public List<Image> slotImages;
+    public List<Image> HUDImages;
 
     public InputActionProperty showInventoryAction;
 
@@ -48,6 +49,7 @@ public class InventoryUI : MonoBehaviour
         }
 
         var items = CharacterManager.Instance.characterData.GetItems();
+        var keys = CharacterManager.Instance.characterData.GetKeys();
 
         for (int i = 0; i < slotObjects.Count; i++)
         {
@@ -60,6 +62,19 @@ public class InventoryUI : MonoBehaviour
             else
             {
                 slotObjects[i].SetActive(false);
+            }
+        }
+
+        for (int i = 0; i < HUDImages.Count; i++)
+        {
+            if (i < keys.Count)
+            {
+                HUDImages[i].sprite = keys[i].icon;
+                HUDImages[i].color = keys[i].icon != null ? Color.white : Color.clear;
+            }
+            else
+            {
+                HUDImages[i].sprite = null;
             }
         }
     }
@@ -86,8 +101,8 @@ public class InventoryUI : MonoBehaviour
                 break;
         }
 
-        CharacterManager.Instance.characterData.RemoveItem(index);
-        UpdateInventoryUI();
+        //CharacterManager.Instance.characterData.RemoveItem(index);
+        //UpdateInventoryUI();
     }
 
     private void SpawnItem(ItemData data)

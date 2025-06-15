@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.XR.Interaction.Toolkit.Inputs.Haptics;
 
 public class CharacterManager : MonoBehaviour
 {
@@ -7,6 +8,9 @@ public class CharacterManager : MonoBehaviour
     public CharacterData characterData { get; private set; }
     [SerializeField] private SceneController sceneController;
     [SerializeField] private BloodEffectUI bloodEffectUI;
+    [SerializeField] private HapticImpulsePlayer left;
+    [SerializeField] private HapticImpulsePlayer right;
+
 
     void Awake()
     {
@@ -26,11 +30,18 @@ public class CharacterManager : MonoBehaviour
     public void ApplyDamage(int damage)
     {
         Instance.characterData.Health -= damage;
+        ManualHapticFeedBack(1f, 1f);
         bloodEffectUI.CalculateDamage();
         if (Instance.characterData.CheckDie())
         {
             sceneController.GameOver();
         }
+    }
+
+    public void ManualHapticFeedBack(float amplitude, float duration)
+    {
+        left.SendHapticImpulse(amplitude, duration);
+        right.SendHapticImpulse(amplitude, duration);
     }
 }
 

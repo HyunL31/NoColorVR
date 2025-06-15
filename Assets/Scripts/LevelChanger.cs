@@ -4,10 +4,10 @@ public class LevelChanger : MonoBehaviour
 {
     public GameManager gameManager;
     [SerializeField] private GameObject levelClearUI;
-    [SerializeField] SceneController sceneController;
+    [SerializeField] private SceneController sceneController;
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Player") && gameManager.gamePhase == GameManager.GamePhase.Level1)
+        if (other.gameObject.CompareTag("Player") && gameManager.gamePhase == GameManager.GamePhase.Level1 && levelClearUI!=null)
         {
             gameManager.ChangeGamePhase(3);
             if (levelClearUI != null)
@@ -15,7 +15,7 @@ public class LevelChanger : MonoBehaviour
             gameManager.SavePoint();
             Destroy(gameObject);
         }
-        if (other.gameObject.CompareTag("Player") && gameManager.gamePhase == GameManager.GamePhase.Level2)
+        if (other.gameObject.CompareTag("Player") && gameManager.gamePhase == GameManager.GamePhase.Level2 && sceneController!=null)
         {
             gameManager.ChangeGamePhase(5);
             sceneController.EndTitle();

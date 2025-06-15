@@ -26,6 +26,9 @@ public class LightPuzzle : MonoBehaviour
 
     private IEnumerator Uprise()
     {
+        CharacterManager.Instance.ManualHapticFeedBack(0.5f, 6f);
+        AudioSource audioSource = GetComponent<AudioSource>();
+        if(audioSource!=null) audioSource.Play();
         buildingFlag = true;
         while (building.transform.localPosition.y < buildingMax)
         {
@@ -39,6 +42,9 @@ public class LightPuzzle : MonoBehaviour
 
     private IEnumerator Down()
     {
+        CharacterManager.Instance.ManualHapticFeedBack(0.5f, 6f);
+        AudioSource audioSource = GetComponent<AudioSource>();
+        if(audioSource!=null) audioSource.Play();
         buildingFlag = true;
         while (building.transform.localPosition.y > buildingMin)
         {

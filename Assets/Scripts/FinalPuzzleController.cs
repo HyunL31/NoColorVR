@@ -20,12 +20,13 @@ public class FinalPuzzleController : MonoBehaviour
                 StartCoroutine(Uprise());
             }
         }
-
-
     }
     
     private IEnumerator Uprise()
     {
+        CharacterManager.Instance.ManualHapticFeedBack(0.5f, 4f);
+        AudioSource audioSource = GetComponent<AudioSource>();
+        if(audioSource!=null) audioSource.Play();
         while (slope.transform.localPosition.y < 0)
         {
             slope.transform.Translate(Vector3.up * 0.01f);

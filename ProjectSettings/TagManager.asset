@@ -5,6 +5,12 @@ TagManager:
   serializedVersion: 3
   tags:
   - Item
+  - Lamp
+  - Mimic
+  - StunAttack
+  - SlowAttack
+  - ConfuseAttack
+  - TrapAttack
   layers:
   - Default
   - TransparentFX

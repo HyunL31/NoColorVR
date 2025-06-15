@@ -9704,9 +9704,10 @@ GameObject:
   - component: {fileID: 5373446992689952301}
   - component: {fileID: 3496758353380158694}
   - component: {fileID: 5060852937554560706}
+  - component: {fileID: 6530324591152617168}
   m_Layer: 0
   m_Name: Magic fire 0
-  m_TagString: Untagged
+  m_TagString: SlowAttack
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -14712,3 +14713,15 @@ MonoBehaviour:
   m_StartingMultipleGrabTransformers: []
   m_AddDefaultGrabTransformers: 1
   m_FarAttachMode: 0
+--- !u!114 &6530324591152617168
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1692517446758730}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: edf23249ee8a1294a84f814be9f7a72b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

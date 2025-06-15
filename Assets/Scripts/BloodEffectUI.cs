@@ -35,15 +35,18 @@ public class BloodEffectUI : MonoBehaviour
         }
 
         // for test
+        /*
         if (Input.GetButtonDown("Jump"))
         {
             ApplyDamage(10);
         }
+        */
     }
 
-    public void ApplyDamage(int amount)
+    // Calculate Player's Damage with 3 stages
+    public void CalculateDamage()
     {
-        currentHP -= amount;
+        currentHP = CharacterManager.Instance.characterData.Health;
         currentHP = Mathf.Clamp(currentHP, 0, maxHP);
 
         float healthRatio = (float)currentHP / maxHP;
@@ -56,6 +59,7 @@ public class BloodEffectUI : MonoBehaviour
         Debug.Log($"HP: {currentHP}, Alpha: {targetAlpha}, Blood count: {dropCount}");
     }
 
+    // Adding Blood Drop
     void UpdateBloodDrops(int count)
     {
         for (int i = 0; i < bloodDrops.Length; i++)

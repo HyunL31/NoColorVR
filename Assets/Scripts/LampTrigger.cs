@@ -1,14 +1,18 @@
-﻿﻿using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.XR.Interaction.Toolkit;
+using UnityEngine.XR.Interaction.Toolkit.Interactables;
 using UnityEngine.XR.Interaction.Toolkit.Interactors;
 
-public class LampTrigger : MonoBehaviour
+public class LampTrigger : XRBaseInteractable
 {
     public ColorBallSpawner ballSpawner;
-    public XRBaseInteractor fixedInteractor;
 
-    private void OnTriggerEnter(Collider other)
+    // If grab the fire object, ColorBall will be spawned.
+    protected override void OnSelectEntered(SelectEnterEventArgs args)
     {
-        if (ballSpawner == null || fixedInteractor == null)
+        base.OnSelectEntered(args);
+
+        if (ballSpawner == null)
         {
             return;
         }
@@ -18,7 +22,7 @@ public class LampTrigger : MonoBehaviour
             return;
         }
 
-        ballSpawner.interactor = fixedInteractor;
+        ballSpawner.interactor = args.interactorObject as XRBaseInteractor;
         ballSpawner.SpawnColorBall();
     }
 }

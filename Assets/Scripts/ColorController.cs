@@ -16,29 +16,27 @@ public enum ColorType
 
 public class ColorController : MonoBehaviour
 {
+    public GameManager gameManager;
     public GameObject menuUI;        // Button UI Panel
     public LampController lamp;      // Lamp Controller
     private bool isMenuOpen = false;
     public InputActionReference submitAction;
 
-    private bool isMenuActive = false;
-
     void Update()
     {
-        if (submitAction.action.triggered)
+        if (submitAction.action.triggered && gameManager.gamePhase==GameManager.GamePhase.Level2)
         {
             isMenuOpen = !isMenuOpen;
             menuUI.SetActive(isMenuOpen);
         }
     }
 
-    // UI 버튼에서 호출할 함수
+    // If press the primary button, the color selector UI will be active.
     public void SelectColor(int colorIndex)
     {
         ColorType selectedColor = (ColorType)colorIndex;
         lamp.SetColor(selectedColor);
 
-        isMenuActive = false;
         menuUI.SetActive(false);
     }
 }

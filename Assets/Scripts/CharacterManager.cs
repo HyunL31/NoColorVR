@@ -4,16 +4,17 @@ using UnityEngine.XR.Interaction.Toolkit.Inputs.Haptics;
 
 public class CharacterManager : MonoBehaviour
 {
-    public static CharacterManager Instance { get; private set; }
-    public CharacterData characterData { get; private set; }
-    [SerializeField] private SceneController sceneController;
-    [SerializeField] private BloodEffectUI bloodEffectUI;
-    [SerializeField] private HapticImpulsePlayer left;
-    [SerializeField] private HapticImpulsePlayer right;
+    public static CharacterManager Instance { get; private set; } // Singleton instance
+    public CharacterData characterData { get; private set; } // Player data
+    [SerializeField] private SceneController sceneController; // Reference to scene handler
+    [SerializeField] private BloodEffectUI bloodEffectUI; // UI for damage feedback
+    [SerializeField] private HapticImpulsePlayer left; // Left-hand haptic feedback
+    [SerializeField] private HapticImpulsePlayer right; // Right-hand haptic feedback
 
 
     void Awake()
     {
+        // Singleton setup
         if (Instance == null)
         {
             Instance = this;
@@ -27,24 +28,31 @@ public class CharacterManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// If player collide with enemy, this is executed from Monster.
+    /// </summary>
+    /// <param name="damage"></param>
     public void ApplyDamage(int damage)
     {
-        Instance.characterData.Health -= damage;
-        ManualHapticFeedBack(1f, 1f);
-        bloodEffectUI.CalculateDamage();
+        Instance.characterData.Health -= damage; // Apply damage to health
+        ManualHapticFeedBack(1f, 1f); // Trigger haptic feedback
+        bloodEffectUI.CalculateDamage(); // Show blood effect
         if (Instance.characterData.CheckDie())
         {
-            sceneController.GameOver();
+            sceneController.GameOver(); // Trigger game over
         }
     }
 
     public void ManualHapticFeedBack(float amplitude, float duration)
     {
-        left.SendHapticImpulse(amplitude, duration);
-        right.SendHapticImpulse(amplitude, duration);
+        left.SendHapticImpulse(amplitude, duration); // Haptic on left hand
+        right.SendHapticImpulse(amplitude, duration); // Haptic on right hand
     }
 }
 
+/// <summary>
+/// CharacterData have player's health, items and can control them.
+/// </summary>
 public class CharacterData
 {
     private int health = 30;
@@ -57,6 +65,7 @@ public class CharacterData
     private List<ItemData> items = new List<ItemData>();
     private List<ItemData> keys = new List<ItemData>();
 
+    // Add scroll or key based on item type
     public void AddItem(ItemData itemData)
     {
         if (itemData != null && itemData.itemType == ItemType.Scroll)
@@ -76,7 +85,7 @@ public class CharacterData
     {
         if (index >= 0 && index < items.Count)
         {
-            items.RemoveAt(index);
+            items.RemoveAt(index); // Remove scroll by index
         }
     }
 
@@ -90,6 +99,7 @@ public class CharacterData
         keys.Clear();
     }
 
+    // Returns true if dead
     public bool CheckDie()
     {
         if (health > 0)

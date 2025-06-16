@@ -7,6 +7,7 @@ public class ButtonPuzzle : MonoBehaviour
     [SerializeField] private List<GameObject> lights;
     [SerializeField] private List<GameObject> keyAndClue;
 
+    // Turn on selected light and check puzzle condition
     public void TurnOnLight(int index)
     {
         if (!lights[index].activeSelf)
@@ -16,6 +17,11 @@ public class ButtonPuzzle : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// If previous light is off, reset others except the current one.
+    /// But from executiing coroutine, current one is also reset after a second.
+    /// </summary>
+    /// <param name="index"></param>
     private void CheckLight(int index)
     {
         if (index > 0)
@@ -42,7 +48,7 @@ public class ButtonPuzzle : MonoBehaviour
                 }
             }
 
-            if (allOn == true)
+            if (allOn == true) //Every lights are on. So key and clue are activated.
             {
                 foreach (GameObject item in keyAndClue)
                 {

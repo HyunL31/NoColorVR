@@ -37,7 +37,6 @@ namespace MimicSpace
             GameObject hitObject = other.gameObject;
 
             // Player attacks hit on trigger enter: apply status effects
-            // This is temp Tag!!
             if (hitObject.CompareTag("SlowAttack"))
             {
                 ApplySlowAttack();
@@ -125,6 +124,7 @@ namespace MimicSpace
             Invoke("ResetStatusEffects", time);
         }
 
+        // Attack the player as possible
         public void TryDamagePlayer(GameObject playerObj)
         {
             if (!canDealDamage) return;
@@ -144,6 +144,7 @@ namespace MimicSpace
             }
         }
 
+        // Clear all effects, and trun back to color: black
         private void ResetStatusEffects()
         {
             slowApplied = false;

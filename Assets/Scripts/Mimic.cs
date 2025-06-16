@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace MimicSpace
 {
-    //This script is based on https://assetstore.unity.com/packages/3d/characters/creatures/mimic-prototype-245997
+    //This script is from https://assetstore.unity.com/packages/3d/characters/creatures/mimic-prototype-245997
 
     public class Mimic : MonoBehaviour
     {

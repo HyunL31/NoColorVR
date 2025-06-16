@@ -2949,7 +2949,7 @@
                 {
                     "name": "",
                     "id": "548f34f0-5f05-4085-9381-64abf6c39954",
-                    "path": "<XRController>{LeftHand}/primaryButton",
+                    "path": "<XRController>{RightHand}/{PrimaryButton}",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -2960,7 +2960,7 @@
                 {
                     "name": "",
                     "id": "9412faa4-b40b-46bf-b7b8-2bc6fd3adabb",
-                    "path": "<XRController>{RightHand}/{PrimaryButton}",
+                    "path": "<XRController>{RightHand}/{SecondaryButton}",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

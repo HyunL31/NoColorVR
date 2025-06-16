@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class StoneLampController : MonoBehaviour
 {
-    [SerializeField] private GameObject stoneLight;
+    [SerializeField] private GameObject stoneLight; // Visual light on the stone lamp
 
-    public LightPuzzle lightPuzzle;
+    public LightPuzzle lightPuzzle; // Reference to the puzzle controller
     private AudioSource audioSource;
 
     private void Awake()
@@ -18,6 +18,7 @@ public class StoneLampController : MonoBehaviour
         {
             if (lightPuzzle != null)
             {
+                // For Rising puzzle type, toggle platform and light
                 if (!stoneLight.activeSelf && lightPuzzle.PuzzleType == "Rising")
                 {
                     lightPuzzle.BuildingUp();
@@ -33,6 +34,7 @@ public class StoneLampController : MonoBehaviour
                         audioSource.Play();
                 }
 
+                // For Spawning puzzle type, toggle items and light
                 if (!stoneLight.activeSelf && lightPuzzle.PuzzleType == "Spawning")
                 {
                     stoneLight.SetActive(true);
@@ -41,7 +43,7 @@ public class StoneLampController : MonoBehaviour
                         audioSource.Play();
                 }
             }
-            else
+            else // Default setting when lentern is activated. Just turn on light.
             {
                 stoneLight.SetActive(true);
                 if (audioSource != null)

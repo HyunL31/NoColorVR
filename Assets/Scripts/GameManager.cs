@@ -1,11 +1,10 @@
 using MimicSpace;
 using UnityEngine;
-using UnityEngine.XR.Interaction.Toolkit.Feedback;
-using UnityEngine.XR.Interaction.Toolkit.Inputs.Haptics;
+
 
 public class GameManager : MonoBehaviour
 {
-    public enum GamePhase
+    public enum GamePhase // Game phase enumeration
     {
         StartMenu,
         Level1,
@@ -14,22 +13,18 @@ public class GameManager : MonoBehaviour
         Ending
     }
 
-    public GamePhase gamePhase { get; set; }
+    public GamePhase gamePhase { get; set; } // Game phase enumeration
 
-    [SerializeField] private GameObject player;
-    [SerializeField] private GameObject lamp;
-    [SerializeField] private GameObject mimic;
+    [SerializeField] private GameObject player; // Reference to player object
+    [SerializeField] private GameObject lamp; // Reference to lamp object
+    [SerializeField] private GameObject mimic; // Reference to mimic enemy
 
-    [SerializeField] private BloodEffectUI bloodEffectUI;
-    [SerializeField] private HapticImpulseData hapticImpulseData = new HapticImpulseData { amplitude = 0.5f, duration = 2f };
-    [SerializeField] private HapticImpulsePlayer left;
-    [SerializeField] private HapticImpulsePlayer right;
-
-    private Vector3 playerPosition;
+    [SerializeField] private BloodEffectUI bloodEffectUI; // UI for damage effect
+    private Vector3 playerPosition; // Saved player respawn position
 
     private void Awake()
     {
-        ChangeGamePhase(1);
+        ChangeGamePhase(1); // Start in StartMenu phase
     }
 
     public void ChangeGamePhase(int p)
@@ -49,6 +44,7 @@ public class GameManager : MonoBehaviour
                 break;
             case 4:
                 gamePhase = GamePhase.Level2;
+                // Enable mimic enemy components
                 mimic.GetComponent<Movement>().enabled = true;
                 mimic.GetComponent<AudioSource>().enabled = true;
                 mimic.transform.GetChild(0).GetComponent<AttackChecker>().enabled = true;
@@ -60,22 +56,23 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    // Save current player position as respawn point
     public void SavePoint()
     {
-        playerPosition = new Vector3(37.4f, 151.6f, 14.461f);
+        playerPosition = new Vector3(37.4f, 151f, 14.461f);
     }
 
     public void ResetLevel()
     {
+        // Move player to saved position
         player.transform.position = playerPosition;
-        lamp.transform.position = playerPosition + Vector3.forward * 0.5f;
-        CharacterManager.Instance.characterData.Health = 30;
-        bloodEffectUI.CalculateDamage();
-    }
 
-    public void ManualHapticFeedBack()
-    {
-        left.SendHapticImpulse(0.5f, 1f);
-        right.SendHapticImpulse(0.5f, 1f);
+        // Temporarily disable lamp physics to move it
+        lamp.GetComponent<Rigidbody>().isKinematic = true;
+        lamp.transform.position = playerPosition + Vector3.forward * 0.5f;
+        lamp.GetComponent<Rigidbody>().isKinematic = false;
+
+        CharacterManager.Instance.characterData.Health = 30; // reset health
+        bloodEffectUI.CalculateDamage(); // update damage UI
     }
 }
